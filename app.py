@@ -27,8 +27,7 @@ def recommend(movie):
 st.header('Movie Recommender System')
 movies = pickle.load(open('model/movie_list.pkl','rb'))
 from sklearn.metrics.pairwise import cosine_similarity
-
-similarity = cosine_similarity(vectors)
+similarity = pickle.load(open('model/similarity.pkl','rb'))
 movie_list = movies['title'].values
 selected_movie = st.selectbox(
     "Type or select a movie from the dropdown",
