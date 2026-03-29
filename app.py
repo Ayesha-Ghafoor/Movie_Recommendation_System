@@ -27,8 +27,19 @@ def recommend(movie):
 st.header('Movie Recommender System')
 movies = pickle.load(open('model/movie_list.pkl','rb'))
 from sklearn.metrics.pairwise import cosine_similarity
-similarity = pickle.load(open('model/similarity.pkl','rb'))
-movie_list = movies['title'].values
+import pandas as pd
+import pickle
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+movies = pickle.load(open('model/movie_list.pkl','rb'))
+
+# vectorization
+cv = CountVectorizer(max_features=5000, stop_words='english')
+vectors = cv.fit_transform(movies['tags']).toarray()
+
+# similarity generate in real time
+similarity = cosine_similarity(vectors)movie_list = movies['title'].values
 selected_movie = st.selectbox(
     "Type or select a movie from the dropdown",
     movie_list
